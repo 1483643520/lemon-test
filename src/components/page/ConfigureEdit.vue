@@ -178,13 +178,10 @@
         },
         methods: {
             onSubmit() {
-                // this.selected_project_id = null;
-                // this.selected_interface_id = null;
                 this.editVisible = true;
             },
             // 处理数据1, 有param_type, 返回js数组
             handleData1(request_data, msg){
-                // let one_data = {};
                 let data_arr = [];
                 for(let i = 0; i < request_data.length; i++) {
                     let key = request_data[i].key;
@@ -237,11 +234,7 @@
                         this.$message.error(msg + '的key为空!');
                         return []
                     }
-                    // let value = request_data[i].value;
-                    // let one_data = {};
-                    // one_data[key] = value;
                     one_data[key] = request_data[i].value;
-                    // data_arr.push(one_data)
                 }
                 return one_data
             },
@@ -266,8 +259,8 @@
                 let datas = {
                     "name": this.configure_name,           // 配置名称
                     "interface": {
-                        "pid": this.selected_project_id,      // 项目ID
-                        "iid": this.selected_interface_id,      // 接口ID
+                        "project_id": this.selected_project_id,      // 项目ID
+                        "interface_id": this.selected_interface_id,      // 接口ID
                     },
                     "author": this.author,         // 配置编写人员
                     "request": {          // 请求信息
@@ -358,7 +351,7 @@
                 if (len === 0) {
                     text = "[]";
                 }
-                this.selected_testcase_id = eval(text);
+                this.selected_testcase_id = JSON.parse(text);
             },
             delTableRow(type, i) {
                 if (type === 'variable') {

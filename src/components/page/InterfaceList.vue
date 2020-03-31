@@ -207,6 +207,9 @@ import { O_RDONLY } from 'constants';
                 this.id = row.id;   // 当前修改的数据在数据库中的真实索引值
                 this.form = row;
                 this.editVisible = true;
+                console.log(row)
+                console.log(this)
+
             },
             handleRun(index, row) {
                 this.idx = index;   // 当前修改的数据, 在tableData数组中的索引值

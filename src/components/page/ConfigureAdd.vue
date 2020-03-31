@@ -317,8 +317,8 @@
                 let datas = {
                     "name": this.configure_name,           // 配置名称
                     "interface": {
-                        "pid": this.selected_project_id,      // 项目ID
-                        "iid": this.selected_interface_id,      // 接口ID
+                        "project_id": this.selected_project_id,      // 项目ID
+                        "interface_id": this.selected_interface_id,      // 接口ID
                     },
                     "author": this.author,         // 配置编写人员
                     "request": {          // 请求信息

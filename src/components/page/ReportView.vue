@@ -220,7 +220,7 @@
 </template>
 
 <script>
-    import { report_view } from '../../api/api';
+    import { report_view, summary } from '../../api/api';
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
@@ -249,6 +249,8 @@
             getData() {
                 report_view(this.report_id)
                     .then(response => {
+                        // console.log("html report");
+                        response.data.summary =JSON.parse(response.data.summary);
                         this.html_report_name = response.data.summary.html_report_name;
                         this.time = response.data.summary.time;
                         this.stat = response.data.summary.stat;

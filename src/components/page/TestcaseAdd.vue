@@ -792,8 +792,8 @@
                     "name": this.testcase_name,           // 用例名称
                     "include": include,       // 用例执行前置顺序
                     "interface": {
-                        "pid": this.selected_project_id,      // 项目ID
-                        "iid": this.selected_interface_id,      // 接口ID
+                        "project_id": this.selected_project_id,      // 项目ID
+                        "interface_id": this.selected_interface_id,      // 接口ID
                     },
                     "author": this.author,         // 用例编写人员
                     "request": {          // 请求信息

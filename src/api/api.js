@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-let host = 'http://127.0.0.1:8001';
+let host = 'http://127.0.0.1:8000';
 // let host = 'http://api.keyou.site:8000';
 
 
 // 登录
-export const login = params => { return axios.post(`${host}/login/`, params) };
+export const login = params => { return axios.post(`${host}/user/login/`, params) };
 
 // 注册
-export const register = params => { return axios.post(`${host}/users/`, params) };
+export const register = params => { return axios.post(`${host}/user/register/`, params) };
 
 // 判断用户名是否注册
-export const check_username = username => { return axios.get(`${host}/users/` + username + '/count/') };
+export const check_username = username => { return axios.get(`${host}/user/` + username + '/count/') };
 
 // 判断邮箱是否注册
-export const check_email = email => { return axios.get(`${host}/users/` + email + '/count/') };
+export const check_email = email => { return axios.get(`${host}/user/` + email + '/count/') };
 
 // 获取项目列表信息
 export const projects_list = params => { return axios.get(`${host}/projects/?page=` + params.page + '&size=' + params.size) };
@@ -44,7 +44,7 @@ export const builtins_list = params => { return axios.get(`${host}/debugtalks/?p
 export const builtins_code = id => { return axios.get(`${host}/debugtalks/` + id + '/') };
 
 // 修改指定的内置函数源码
-export const builtins_update = (id, code) => { return axios.put(`${host}/debugtalks/` + id + '/', {'debugtalk': code}) };
+export const builtins_update = (id, code) => { return axios.patch(`${host}/debugtalks/` + id + '/', {'debugtalk': code}) };
 
 // 获取接口列表信息
 export const interfaces_list = params => { return axios.get(`${host}/interfaces/?page=` + params.page + '&size=' + params.size) };
@@ -53,7 +53,7 @@ export const interfaces_list = params => { return axios.get(`${host}/interfaces/
 export const delete_interface = id => { return axios.delete(`${host}/interfaces/` + id + '/') };
 
 // 修改某个接口
-export const edit_interface = (id, params) => { return axios.put(`${host}/interfaces/` + id + '/', params) };
+export const edit_interface = (id, params) => { return axios.patch(`${host}/interfaces/` + id + '/', params) };
 
 // 新增接口
 export const add_interface = params => { return axios.post(`${host}/interfaces/`, params) };
