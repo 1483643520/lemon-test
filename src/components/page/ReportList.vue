@@ -163,6 +163,8 @@
             handleOpen(index, row){
                 this.idx = index;
                 this.id = row.id;
+                console.log(index)
+                console.log(row)
                 this.$router.push({ path: `/reports_view/${this.id}` })
                 // report_open(this.id)
                 //     .then(response => {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import Meta from "vue-meta"
 // import axios from 'axios';
 // import pie from 'v-charts/lib/pie.common'
 // import histogram from 'v-charts/lib/histogram.common'
@@ -17,6 +18,7 @@ import contentmenu from 'v-contextmenu'
 
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
+Vue.use(Meta);
 Vue.use(ElementUI, {
     size: 'small'
 });
