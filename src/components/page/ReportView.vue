@@ -127,7 +127,7 @@
                                 prop="record.meta_datas.data[0].response.body" align="center" :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column
-                                label="耗时"
+                                label="运行时间"
                                 prop="record.meta_datas.stat.elapsed_ms" align="center" width="80%">
                         </el-table-column>
                         <el-table-column
