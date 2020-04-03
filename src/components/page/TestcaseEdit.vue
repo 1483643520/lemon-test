@@ -82,252 +82,252 @@
 
                 <el-tab-pane label="请求信息">
                     <!--<div class="form-box">-->
-                        <el-form style="margin: 0 0 0 10px">
-                            <el-form-item>
-                                <el-input placeholder="Enter request URL"
-                                          v-model="apiMsgData.url"
-                                          class="input-with-select"
-                                          style="width: 80%;margin-right: 5px">
-                                    <el-select v-model="apiMsgData.method"
-                                               size="medium"
-                                               style="width: 100px"
-                                               slot="prepend"
-                                               placeholder="选择请求方式">
-                                        <el-option v-for="item in methods"
-                                                   :key="item"
-                                                   :value="item"
-                                                   :label="item">
-                                        </el-option>
-                                    </el-select>
-                                    <el-button
-                                            slot="append"
-                                            type="primary"
-                                            @click="ParamViewStatus = !ParamViewStatus">
-                                        Params
-                                    </el-button>
+                    <el-form style="margin: 0 0 0 10px">
+                        <el-form-item>
+                            <el-input placeholder="Enter request URL"
+                                      v-model="apiMsgData.url"
+                                      class="input-with-select"
+                                      style="width: 80%;margin-right: 5px">
+                                <el-select v-model="apiMsgData.method"
+                                           size="medium"
+                                           style="width: 100px"
+                                           slot="prepend"
+                                           placeholder="选择请求方式">
+                                    <el-option v-for="item in methods"
+                                               :key="item"
+                                               :value="item"
+                                               :label="item">
+                                    </el-option>
+                                </el-select>
+                                <el-button
+                                        slot="append"
+                                        type="primary"
+                                        @click="ParamViewStatus = !ParamViewStatus">
+                                    Params
+                                </el-button>
+                            </el-input>
+                        </el-form-item>
+                    </el-form>
+
+                    <el-table :data="apiMsgData.param"
+                              :row-style="{'background-color': 'rgb(250, 250, 250)'}"
+                              style="width:98.2%;margin-top:-20px;left: 10px;"
+                              size="mini"
+                              :show-header="false"
+                              v-show="this.ParamViewStatus">
+                        <el-table-column property="key" label="Key" header-align="center" min-width="80">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.key" size="mini" placeholder="key">
                                 </el-input>
-                            </el-form-item>
-                        </el-form>
+                            </template>
+                        </el-table-column>
+                        <el-table-column property="value" label="Value" header-align="center" min-width="200">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.value"
+                                          size="mini" placeholder="value"
+                                          :id="'param_input' + scope.$index "
+                                          type="textarea"
+                                          rows=1
+                                          @focus="showLine('param_input', scope.$index)"
+                                          @input="changeLine()"
+                                          @blur="resetLine(scope.$index)"
+                                          resize="none"
+                                >
+                                </el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column property="value" label="操作" header-align="center" width="60">
+                            <template slot-scope="scope">
+                                <el-button type="danger"
+                                           icon="el-icon-delete"
+                                           size="mini"
+                                           @click.native="delTableRow('param',scope.$index)">
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
 
-                        <el-table :data="apiMsgData.param"
-                                  :row-style="{'background-color': 'rgb(250, 250, 250)'}"
-                                  style="width:98.2%;margin-top:-20px;left: 10px;"
-                                  size="mini"
-                                  :show-header="false"
-                                  v-show="this.ParamViewStatus">
-                            <el-table-column property="key" label="Key" header-align="center" min-width="80">
-                                <template slot-scope="scope">
-                                    <el-input v-model="scope.row.key" size="mini" placeholder="key">
-                                    </el-input>
-                                </template>
-                            </el-table-column>
-                            <el-table-column property="value" label="Value" header-align="center" min-width="200">
-                                <template slot-scope="scope">
-                                    <el-input v-model="scope.row.value"
-                                              size="mini" placeholder="value"
-                                              :id="'param_input' + scope.$index "
-                                              type="textarea"
-                                              rows=1
-                                              @focus="showLine('param_input', scope.$index)"
-                                              @input="changeLine()"
-                                              @blur="resetLine(scope.$index)"
-                                              resize="none"
-                                    >
-                                    </el-input>
-                                </template>
-                            </el-table-column>
-                            <el-table-column property="value" label="操作" header-align="center" width="60">
-                                <template slot-scope="scope">
-                                    <el-button type="danger"
-                                               icon="el-icon-delete"
-                                               size="mini"
-                                               @click.native="delTableRow('param',scope.$index)">
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
+                    <el-tabs style="margin: 0 0 0 10px" v-model="bodyShow">
+                        <el-tab-pane label="Headers" name="first">
+                            <el-table :data="apiMsgData.header" size="mini" stripe :show-header="false"
+                                      class="h-b-e-a-style"
+                                      :row-style="{'background-color': 'rgb(250, 250, 250)'}">
+                                <el-table-column property="key" label="Key" header-align="center" minWidth="100">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.key" size="mini" placeholder="key">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
 
-                        <el-tabs style="margin: 0 0 0 10px" v-model="bodyShow">
-                            <el-tab-pane label="Headers" name="first">
-                                <el-table :data="apiMsgData.header" size="mini" stripe :show-header="false"
-                                          class="h-b-e-a-style"
-                                          :row-style="{'background-color': 'rgb(250, 250, 250)'}">
-                                    <el-table-column property="key" label="Key" header-align="center" minWidth="100">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.key" size="mini" placeholder="key">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
+                                <el-table-column property="value" label="Value" header-align="center" minWidth="200">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.value" size="mini" placeholder="value">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column property="value" label="操作" header-align="center" width="80">
+                                    <template slot-scope="scope">
+                                        <el-button type="danger" icon="el-icon-delete" size="mini"
+                                                   @click.native="delTableRow('header',scope.$index)">
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+                        <el-tab-pane label="Body" name="second" :disabled="apiMsgData.method === 'GET'">
+                            <el-form :inline="true" class="demo-form-inline" style="margin-top: 10px">
+                                <el-radio-group v-model="apiMsgData.choiceType">
+                                    <el-radio label="data">form-data</el-radio>
+                                    <el-radio label="json">json</el-radio>
+                                    <!--<el-radio label="text">text</el-radio>-->
+                                </el-radio-group>
+                                <el-button type="primary" size="mini"
+                                           v-show="apiMsgData.choiceType === 'json'"
+                                           style="margin-left:20px"
+                                           @click="formatData()">格式化
 
-                                    <el-table-column property="value" label="Value" header-align="center" minWidth="200">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.value" size="mini" placeholder="value">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column property="value" label="操作" header-align="center" width="80">
-                                        <template slot-scope="scope">
-                                            <el-button type="danger" icon="el-icon-delete" size="mini"
-                                                       @click.native="delTableRow('header',scope.$index)">
-                                            </el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                            </el-tab-pane>
-                            <el-tab-pane label="Body" name="second" :disabled="apiMsgData.method === 'GET'">
-                                <el-form :inline="true" class="demo-form-inline" style="margin-top: 10px">
-                                    <el-radio-group v-model="apiMsgData.choiceType">
-                                        <el-radio label="data">form-data</el-radio>
-                                        <el-radio label="json">json</el-radio>
-                                        <!--<el-radio label="text">text</el-radio>-->
-                                    </el-radio-group>
-                                    <el-button type="primary" size="mini"
-                                               v-show="apiMsgData.choiceType === 'json'"
-                                               style="margin-left:20px"
-                                               @click="formatData()">格式化
+                                </el-button>
+                            </el-form>
+                            <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);"/>
 
-                                    </el-button>
-                                </el-form>
-                                <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);"/>
+                            <div v-if="apiMsgData.choiceType === 'json'">
+                                <div style="border:1px solid rgb(234, 234, 234) ">
+                                    <el-container>
+                                        <editor
+                                                v-contextmenu:contextmenu
+                                                style="font-size: 15px"
+                                                v-model="apiMsgData.jsonVariable"
+                                                @init="editorInit"
+                                                lang="json"
+                                                theme="chrome"
+                                                width="100%"
+                                                height="575px"
+                                                :options="{}"
+                                        >
+                                        </editor>
+                                    </el-container>
 
-                                <div v-if="apiMsgData.choiceType === 'json'">
-                                    <div style="border:1px solid rgb(234, 234, 234) ">
-                                        <el-container>
-                                            <editor
-                                                    v-contextmenu:contextmenu
-                                                    style="font-size: 15px"
-                                                    v-model="apiMsgData.jsonVariable"
-                                                    @init="editorInit"
-                                                    lang="json"
-                                                    theme="chrome"
-                                                    width="100%"
-                                                    height="575px"
-                                                    :options="{}"
-                                            >
-                                            </editor>
-                                        </el-container>
-
-                                    </div>
                                 </div>
-                                <el-table :data="apiMsgData.variable"
-                                          size="mini"
-                                          stripe
-                                          :show-header="false" height="500"
-                                          style="background-color: rgb(250, 250, 250)"
-                                          v-if="apiMsgData.choiceType === 'data'"
-                                          :row-style="{'background-color': 'rgb(250, 250, 250)'}">
-                                    <el-table-column label="Key" header-align="center" minWidth="100">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.key" size="mini" placeholder="key">
+                            </div>
+                            <el-table :data="apiMsgData.variable"
+                                      size="mini"
+                                      stripe
+                                      :show-header="false" height="500"
+                                      style="background-color: rgb(250, 250, 250)"
+                                      v-if="apiMsgData.choiceType === 'data'"
+                                      :row-style="{'background-color': 'rgb(250, 250, 250)'}">
+                                <el-table-column label="Key" header-align="center" minWidth="100">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.key" size="mini" placeholder="key">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="type" header-align="center" width="100">
+                                    <template slot-scope="scope">
+                                        <el-select v-model="scope.row.param_type" size="mini">
+                                            <el-option v-for="item in paramTypes" :key="item" :value="item">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="Value" header-align="center" minWidth="200">
+                                    <template slot-scope="scope">
+                                        <div>
+                                            <el-input v-model="scope.row.value"
+                                                      :id="'data_input' + scope.$index "
+                                                      type="textarea"
+                                                      rows=1
+                                                      @focus="showLine('data_input', scope.$index)"
+                                                      @input="changeLine()"
+                                                      @blur="resetLine()"
+                                                      size="mini"
+                                                      resize="none" placeholder="value">
                                             </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="type" header-align="center" width="100">
-                                        <template slot-scope="scope">
-                                            <el-select v-model="scope.row.param_type" size="mini">
-                                                <el-option v-for="item in paramTypes" :key="item" :value="item">
-                                                </el-option>
-                                            </el-select>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="Value" header-align="center" minWidth="200">
-                                        <template slot-scope="scope">
-                                            <div>
-                                                <el-input v-model="scope.row.value"
-                                                          :id="'data_input' + scope.$index "
-                                                          type="textarea"
-                                                          rows=1
-                                                          @focus="showLine('data_input', scope.$index)"
-                                                          @input="changeLine()"
-                                                          @blur="resetLine()"
-                                                          size="mini"
-                                                          resize="none" placeholder="value">
-                                                </el-input>
-                                            </div>
+                                        </div>
 
-                                        </template>
-                                    </el-table-column>
+                                    </template>
+                                </el-table-column>
 
-                                    <el-table-column property="value" label="操作" header-align="center" width="80">
-                                        <template slot-scope="scope">
-                                            <el-button type="danger" icon="el-icon-delete" size="mini"
-                                                       @click.native="delTableRow('variable',scope.$index)">
-                                            </el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                            </el-tab-pane>
-                            <el-tab-pane label="Extract" name="third">
-                                <el-table :data="apiMsgData.extract" size="mini" stripe :show-header="false"
-                                          class="h-b-e-a-style"
-                                          :row-style="{'background-color': 'rgb(250, 250, 250)'}">
-                                    <el-table-column property="key" label="Key" header-align="center" minWidth="100">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.key" size="mini" placeholder="key">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column property="value" label="Value" header-align="center" minWidth="200">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.value" size="mini" placeholder="value">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column property="value" label="操作" header-align="center" width="80">
-                                        <template slot-scope="scope">
-                                            <el-button type="danger" icon="el-icon-delete" size="mini"
-                                                       @click.native="delTableRow('extract',scope.$index)">
-                                            </el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                            </el-tab-pane>
-                            <el-tab-pane label="Assert" name="fourth">
-                                <el-table :data="apiMsgData.validate" size="mini" stripe :show-header="false"
-                                          class="h-b-e-a-style"
-                                          :row-style="{'background-color': 'rgb(250, 250, 250)'}">
+                                <el-table-column property="value" label="操作" header-align="center" width="80">
+                                    <template slot-scope="scope">
+                                        <el-button type="danger" icon="el-icon-delete" size="mini"
+                                                   @click.native="delTableRow('variable',scope.$index)">
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+                        <el-tab-pane label="Extract" name="third">
+                            <el-table :data="apiMsgData.extract" size="mini" stripe :show-header="false"
+                                      class="h-b-e-a-style"
+                                      :row-style="{'background-color': 'rgb(250, 250, 250)'}">
+                                <el-table-column property="key" label="Key" header-align="center" minWidth="100">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.key" size="mini" placeholder="key">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column property="value" label="Value" header-align="center" minWidth="200">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.value" size="mini" placeholder="value">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column property="value" label="操作" header-align="center" width="80">
+                                    <template slot-scope="scope">
+                                        <el-button type="danger" icon="el-icon-delete" size="mini"
+                                                   @click.native="delTableRow('extract',scope.$index)">
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+                        <el-tab-pane label="Assert" name="fourth">
+                            <el-table :data="apiMsgData.validate" size="mini" stripe :show-header="false"
+                                      class="h-b-e-a-style"
+                                      :row-style="{'background-color': 'rgb(250, 250, 250)'}">
 
-                                    <el-table-column property="key" label="Key" header-align="center" minWidth="100">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.key" size="mini" placeholder="check">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="Comparator" header-align="center" width="200">
-                                        <template slot-scope="scope">
-                                            <el-autocomplete
-                                                    class="inline-input"
-                                                    v-model="scope.row.comparator"
-                                                    :fetch-suggestions="querySearch"
-                                                    placeholder="请选择"
-                                                    size="mini"
-                                            ></el-autocomplete>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label="type" header-align="center" width="100">
-                                        <template slot-scope="scope">
-                                            <el-select v-model="scope.row.param_type" size="mini">
-                                                <el-option v-for="item in paramTypes" :key="item" :value="item">
-                                                </el-option>
-                                            </el-select>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column property="value" label="Value" header-align="center" minWidth="200">
-                                        <template slot-scope="scope">
-                                            <el-input v-model="scope.row.value" size="mini" placeholder="expected">
-                                            </el-input>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column property="value" label="操作" header-align="center" width="80">
-                                        <template slot-scope="scope">
-                                            <el-button type="danger" icon="el-icon-delete" size="mini"
-                                                       @click.native="delTableRow('validate',scope.$index)">
-                                            </el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                            </el-tab-pane>
-                        </el-tabs>
+                                <el-table-column property="key" label="Key" header-align="center" minWidth="100">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.key" size="mini" placeholder="check">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="Comparator" header-align="center" width="200">
+                                    <template slot-scope="scope">
+                                        <el-autocomplete
+                                                class="inline-input"
+                                                v-model="scope.row.comparator"
+                                                :fetch-suggestions="querySearch"
+                                                placeholder="请选择"
+                                                size="mini"
+                                        ></el-autocomplete>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="type" header-align="center" width="100">
+                                    <template slot-scope="scope">
+                                        <el-select v-model="scope.row.param_type" size="mini">
+                                            <el-option v-for="item in paramTypes" :key="item" :value="item">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column property="value" label="Value" header-align="center" minWidth="200">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.value" size="mini" placeholder="expected">
+                                        </el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column property="value" label="操作" header-align="center" width="80">
+                                    <template slot-scope="scope">
+                                        <el-button type="danger" icon="el-icon-delete" size="mini"
+                                                   @click.native="delTableRow('validate',scope.$index)">
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+                    </el-tabs>
 
                     <!--</div>-->
                 </el-tab-pane>
@@ -601,8 +601,6 @@
                     return
                 }
 
-                // this.selected_project_id = null;
-                // this.selected_interface_id = null;
                 this.editVisible = true;
             },
             // 处理数据1, 有param_type, 返回js对象
@@ -714,6 +712,11 @@
                     }
                     let value = request_data[i].value;
                     let one_data = {};
+                    // 如果参数化值是列表的形式(不是函数也不是csv), 将列表转化为json数组
+                    if (/^\[/.test(value)) {
+                        value = JSON.parse(value);
+                    }
+                    console.log("value: ", value);
                     one_data[key] = value;
                     data_arr.push(one_data)
                 }
@@ -823,7 +826,6 @@
                         }
                     },
                 };
-
                 // 处理查询字符串参数
                 let params_data = this.apiMsgData.param;
                 params_data.splice(-1, 1);   // 删除最后一个空元素
@@ -861,6 +863,7 @@
                 parameterized.splice(-1, 1);
                 if (parameterized.length !== 0) {
                     let new_data = this.handleData22(parameterized, '参数化参数');
+                    console.log("new_data", new_data);
                     if (new_data.length === 0) {
                         return
                     }
@@ -1009,7 +1012,8 @@
                 if (len === 0) {
                     text = "[]";
                 }
-                this.selected_testcase_id = eval(text);
+                this.selected_testcase_id = JSON.parse(text);
+                console.log(this.selected_testcase_id)
             },
             delTableRow(type, i) {
                 if (type === 'variable') {
