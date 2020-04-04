@@ -147,7 +147,7 @@
 
 <script>
     import echarts from 'echarts';
-    import { configures_list, report_view } from '../../api/api';
+    import { report_view } from '../../api/api';
 
     export default {
         beforeRouteEnter(to, from, next) {
