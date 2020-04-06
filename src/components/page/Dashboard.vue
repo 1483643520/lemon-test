@@ -348,8 +348,8 @@ export default {
             this.charts = echarts.init(document.getElementById(id));
             this.charts.setOption({
                 grid: {
-                    left: '1%',
-                    right: '9%',
+                    left: '5%',
+                    right: '7%',
                     bottom: '3%',
                     containLabel: true
                 },
