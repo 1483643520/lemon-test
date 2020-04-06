@@ -13,6 +13,8 @@ import { messages } from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/icon.css';
 import "babel-polyfill";
+// 引入字体文件
+import "../static/font_1/刻石录颜体.css"
 // 开启contentmenu
 import contentmenu from 'v-contextmenu'
 

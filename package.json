@@ -36,6 +36,7 @@
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
     "echarts": "^4.7.0",
+    "less": "^3.11.1",
     "v-charts": "^1.17.9",
     "v-contextmenu": "^2.8.0",
     "vue-template-compiler": "^2.6.10"
