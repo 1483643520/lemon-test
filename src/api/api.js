@@ -156,3 +156,15 @@ export const add_env = params => { return axios.post(`${host}/envs/`, params) };
 
 // 获取所有统计信息
 export const summary = () => { return axios.get(`${host}/summary/`) };
+
+// 获取待办事项
+export const backlog_list = params => { return axios.get(`${host}/backlog/?user_id=` + params.user_id)};
+
+// 删除待办事项
+export const delete_backlog = id => { return axios.delete(`${host}/backlog/` + id + '/') };
+
+// 修改待办事项
+export const edit_backlog = (id, params) => { return axios.put(`${host}/backlog/` + id + '/', params) };
+
+// 新增待办事项
+export const add_backlog = params => { return axios.post(`${host}/backlog/`, params) };
