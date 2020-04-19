@@ -164,7 +164,7 @@ export const backlog_list = params => { return axios.get(`${host}/backlog/?user_
 export const delete_backlog = id => { return axios.delete(`${host}/backlog/` + id + '/') };
 
 // 修改待办事项
-export const edit_backlog = (id, params) => { return axios.put(`${host}/backlog/` + id + '/', params) };
+export const edit_backlog = (id, params) => { return axios.patch(`${host}/backlog/` + id + '/', params) };
 
 // 新增待办事项
 export const add_backlog = params => { return axios.post(`${host}/backlog/`, params) };

@@ -86,7 +86,7 @@
                                 <div
                                         class="todo-item"
                                         :class="{'todo-item-del': scope.row.status}"
-                                >{{scope.row.text}}
+                                >{{scope.row.text}} -- {{scope.row.update_time}}
                                 </div>
                             </template>
                         </el-table-column>
@@ -178,17 +178,16 @@
                     });
 
             },
-            backlog(){
-                backlog_list({"user_id": this.user.user_id})
+            backlog() {
+                backlog_list({ 'user_id': this.user.user_id })
                     .then(response => {
                         this.todoList = response.data.results;
-                        console.log(this.todoList)
+                        console.log(this.todoList);
                     })
                     .catch(error => {
                         this.$message.error('服务器错误');
-                    })
-            }
-           ,
+                    });
+            },
             // 柱状图
             drawPie(id) {
                 this.charts = echarts.init(document.getElementById(id));
@@ -261,7 +260,7 @@
                             type: 'value'
                         }
                     ],
-                    series:this.cartogram_seconde.series
+                    series: this.cartogram_seconde.series
                 });
             },
             // 添加待办事项
@@ -273,28 +272,17 @@
                     inputErrorMessage: '待办事项必填'
                 }).then(({ value }) => {
                     var form = {
-                       "user": this.user.user_id,
-                       "text": value
+                        'user': this.user.user_id,
+                        'text': value
                     };
-                    console.log(form)
                     add_backlog(form)
-                        .then((response)=> {
+                        .then((response) => {
                             this.backlog();
                             this.$message({
                                 type: 'success',
                                 message: '新增完成: ' + value
                             });
-                        })
-                        .catch(error => {
-                            if (typeof error === 'object' && error.hasOwnProperty('name')) {
-                                this.$message.error('配置名称已存在');
-                            } else {
-                                // console.log(error);
-                                this.$message.error('服务器错误');
-                            }
-
                         });
-
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -303,18 +291,26 @@
                 });
             },
             // 编辑待办事项
-            editing(value) {
+            editing(datas) {
                 this.$prompt('待办事项：', '修改', {
-                    inputValue: value.title,
+                    inputValue: datas.text,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,
                     inputErrorMessage: '待办事项必填'
                 }).then(({ value }) => {
-                    this.$message({
-                        type: 'success',
-                        message: '修改完成: ' + value
-                    });
+                    var form = {
+                        'text': value
+                    };
+                    edit_backlog(datas.id, form)
+                        .then((response) => {
+                            this.backlog();
+                            this.$message({
+                                type: 'success',
+                                message: '修改完成: ' + value
+                            });
+                        });
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -324,19 +320,37 @@
             },
             checkbox(value) {
                 console.log(value);
+                if(value.status == true){
+                    var form = {
+                        'status': 1
+                    };
+                }
+                if(value.status == false){
+                    var form = {
+                        'status': 0
+                    };
+                }
+                edit_backlog(value.id, form)
+                    .then((response) => {
+                        this.backlog();
+                    });
             },
             // 删除待办事项
             deleted(value) {
-                console.log(888);
                 this.$confirm('确认删除当前待办事项?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    delete_backlog(value.id)
+                        .then((response) => {
+                            this.backlog();
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        });
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
