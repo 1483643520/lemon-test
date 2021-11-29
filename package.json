@@ -16,7 +16,7 @@
     "dependencies": "0.0.1",
     "element-ui": "^2.11.0",
     "less-loader": "^5.0.0",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "vue": "^2.6.10",
     "vue-cropperjs": "^3.0.0",
     "vue-i18n": "^8.10.0",
